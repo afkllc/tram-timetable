@@ -6,21 +6,25 @@
     <title>Next departures — Olympic Legacy Park</title>
 
     <style>
+      html {
+        height: 100%;
+      }
+
       :root {
-        --bg-1: #f6f9fc;
-        --bg-2: #eef6fe;
-        --card: #ffffff;
-        --muted: #6b7280;
-        --text: #0f172a;
+        --bg-1: #0f0f0f;
+        --bg-2: #1a1a1a;
+        --card: #1a1a1a;
+        --muted: #888888;
+        --text: #fffafa;
         --accent: 30 88 255;
         --accent-2: 99 102 241;
-        --danger: #b00020;
-        --glass: rgba(255, 255, 255, 0.6);
+        --danger: #ff4444;
+        --glass: rgba(255, 255, 255, 0.1);
         --max-width: 980px;
         --yellow-rgb: 245 183 46;
         --tt-rgb: 28 30 36;
         --gap: 18px;
-        --radius: 12px;
+        --radius: 8px;
       }
 
       html,
@@ -29,15 +33,37 @@
         margin: 0;
       }
       body {
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
-          Roboto, Arial;
+        font-family: monospace;
         -webkit-font-smoothing: antialiased;
-        background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-        color: #0f172a;
+        color: #fffafa;
         display: flex;
         align-items: flex-start;
         justify-content: center;
         padding: 36px 20px;
+        zoom: 115%;
+        margin: 0;
+        background: #000000;
+      }
+
+      .bg {
+        display: none;
+      }
+
+      .bg2 {
+        display: none;
+      }
+
+      .bg3 {
+        display: none;
+      }
+
+      @keyframes slide {
+        0% {
+          transform: translateX(-25%);
+        }
+        100% {
+          transform: translateX(25%);
+        }
       }
 
       .container {
@@ -53,14 +79,27 @@
         align-items: center;
         justify-content: center;
         gap: 12px;
-        margin-bottom: 6px;
+        margin-bottom: 10px;
       }
       h1 {
         margin: 0;
-        font-size: 22px;
+        font-size: 28px;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
-        color: #0b1220;
+        letter-spacing: 0.08em;
+        color: #fffafa;
+        font-weight: 700;
+        font-family: 'Courier New';
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      .neon-text {
+        font-size: 2.2rem;
+        color: #fffafa;
+        text-shadow: none;
+        animation: none;
+        font-weight: 700;
+        font-family: Arial;
       }
       .sub {
         color: var(--muted);
@@ -79,15 +118,11 @@
       }
 
       .card {
-        background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.95),
-          var(--card)
-        );
+        background: #1a1a1a;
         border-radius: var(--radius);
-        padding: 18px;
-        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
-        border: 1px solid rgba(15, 23, 42, 0.04);
+        padding: 24px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        border: 1px solid #333333;
         display: flex;
         flex-direction: column;
         gap: 12px;
@@ -101,15 +136,18 @@
       }
       .heading strong {
         font-size: 14px;
-        color: #081026;
+        color: #fffafa;
+        font-weight: 600;
+        font-family: Arial, Helvetica, sans-serif;
       }
       .heading .small {
         font-size: 13px;
         color: var(--muted);
       }
       .meta {
-        color: var(--muted);
-        font-size: 13px;
+        color: #666666;
+        font-size: 12px;
+        font-family: Arial, sans-serif;
       }
 
       /* single-column rows for time cards */
@@ -120,18 +158,34 @@
       }
 
       .time-item {
-        transition: transform 320ms cubic-bezier(0.2, 0.9, 0.2, 1),
-          opacity 320ms ease, box-shadow 320ms ease;
-        will-change: transform, opacity;
-        padding: 12px 16px;
-        border-radius: 8px;
-        font-size: 16px;
-        font-weight: 600;
+        padding: 16px 20px;
+        border-radius: 6px;
+        font-size: 18px;
+        font-weight: 700;
+        font-family: 'Courier New', monospace;
         display: flex;
         flex-direction: row;
-        gap: 12px;
+        gap: 16px;
         align-items: center;
         justify-content: space-between;
+        background: #252525;
+        border: 1px solid #333333;
+      }
+
+      .time-item > div:first-child {
+        animation: flip 0.6s ease-in-out;
+        transform-style: preserve-3d;
+      }
+
+      @keyframes flip {
+        0% {
+          transform: rotateX(90deg);
+          opacity: 0;
+        }
+        100% {
+          transform: rotateX(0deg);
+          opacity: 1;
+        }
       }
 
       /* entering */
@@ -175,9 +229,13 @@
         pointer-events: none;
       }
       .time-item:first-child {
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        background: linear-gradient(
+          90deg,
+          rgba(30, 88, 255, 0.3),
+          rgba(99, 102, 241, 0.3)
+        );
         color: #fff;
-        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
+        border: 1px solid rgba(30, 88, 255, 0.5);
       }
 
       /* when a time card uses the accent (recent/selected), make the service text white for contrast */
@@ -189,32 +247,34 @@
 
       /* colour variants by service type */
       .time-item.yellow {
-        background: linear-gradient(90deg, #facc15 0%, #f59e0b 100%);
-        color: #081026;
-        box-shadow: 0 6px 14px rgba(250, 204, 21, 0.12);
+        background: rgba(231, 147, 2, 0.507);
+
+        color: #fbbf24;
+        border: 1px solid rgba(250, 204, 21, 0.4);
       }
       .time-item.yellow .service {
-        color: #081026;
+        color: #ffe81e;
       }
 
       .time-item.tt {
-        background: linear-gradient(180deg, #000000 0%, #161616 100%);
-        color: #ffffff;
-        box-shadow: 0 4px 10px rgba(15, 17, 24, 0.06);
+        background: #1a1a1a;
+        color: #fffafa;
+        border: 1px solid #444444;
       }
       .time-item.tt .service {
-        color: #bbbbbb;
+        color: #aaaaaa;
       }
 
       .service {
-        font-size: 12px;
-        color: var(--muted);
-        font-weight: 600;
+        font-size: 11px;
+        color: #999999;
+        font-weight: 500;
         max-width: 220px;
-        text-align: center;
+        text-align: right;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
+        font-family: Arial, sans-serif;
       }
 
       .times-empty {
@@ -229,6 +289,26 @@
         color: var(--danger);
         font-weight: 700;
         margin-top: 6px;
+      }
+
+      .credits {
+        position: fixed;
+        bottom: 12px;
+        right: 20px;
+        font-size: 11px;
+        color: #666666;
+        font-family: Arial, sans-serif;
+        letter-spacing: 0.05em;
+      }
+
+      .credits a {
+        color: #1e58ff;
+        text-decoration: none;
+        transition: color 200ms ease;
+      }
+
+      .credits a:hover {
+        color: #6366f1;
       }
 
       @media (max-width: 420px) {
@@ -250,16 +330,20 @@
     </style>
   </head>
   <body>
+    <div class="bg"></div>
+    <div class="bg bg2"></div>
+    <div class="bg bg3"></div>
     <div class="container" role="main">
       <header>
-        <h1 style="text-align: right">Next departures</h1>
+        <h1 class="neon-text" style="text-align: right">Next departures</h1>
+        <span>(tram)</span>
         <!--<div class="sub">Olympic Legacy Park</div>-->
       </header>
 
       <div class="cards" aria-live="polite">
         <section class="card" aria-labelledby="o-title">
           <div class="heading">
-            <strong id="o-title">Olympic Legacy Park -> City</strong>
+            <strong id="o-title">Olympic Legacy Park → City</strong>
           </div>
 
           <div id="meta-1" class="meta">Loading…</div>
@@ -269,7 +353,7 @@
 
         <section class="card" aria-labelledby="c-title">
           <div class="heading">
-            <strong id="c-title">City -> Olympic Legacy Park</strong>
+            <strong id="c-title">City → Olympic Legacy Park</strong>
           </div>
 
           <div id="meta-2" class="meta">Loading…</div>
@@ -278,7 +362,10 @@
         </section>
       </div>
     </div>
-
+    <div class="credits">
+      Made by <a href="https://github.com/afkllc">afkllc</a> with the help of
+      <a href="github.com/devramsean0">devramsean0</a>
+    </div>
     <script>
       const POLL_SECS = 30
       const API = '/api/times'
@@ -372,7 +459,7 @@
           renderTimesContainer(timesEl, times)
           metaEl.textContent = `Stop ${j.stop} • last fetched ${new Date(
             j.fetched_at
-          ).toLocaleTimeString()}${j.cached ? ' (cached)' : ''}`
+          ).toLocaleTimeString()}`
         } catch (e) {
           errEl.style.display = 'block'
           errEl.textContent = 'Error fetching times: ' + (e.message || e)
