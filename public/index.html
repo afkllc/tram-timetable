@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Next departures — Olympic Legacy Park</title>
+
+    <style>
+      :root {
+        --bg-1: #f6f9fc;
+        --bg-2: #eef6fe;
+        --card: #ffffff;
+        --muted: #6b7280;
+        --text: #0f172a;
+        --accent: 30 88 255;
+        --accent-2: 99 102 241;
+        --danger: #b00020;
+        --glass: rgba(255, 255, 255, 0.6);
+        --max-width: 980px;
+        --yellow-rgb: 245 183 46;
+        --tt-rgb: 28 30 36;
+        --gap: 18px;
+        --radius: 12px;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+          Roboto, Arial;
+        -webkit-font-smoothing: antialiased;
+        background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        color: #0f172a;
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 36px 20px;
+      }
+
+      .container {
+        width: 100%;
+        max-width: var(--max-width);
+        display: flex;
+        flex-direction: column;
+        gap: var(--gap);
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 6px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #0b1220;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+      @media (min-width: 820px) {
+        .cards {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.95),
+          var(--card)
+        );
+        border-radius: var(--radius);
+        padding: 18px;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+        border: 1px solid rgba(15, 23, 42, 0.04);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .heading strong {
+        font-size: 14px;
+        color: #081026;
+      }
+      .heading .small {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .meta {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      /* 2-column grid for time cards; each card shows time + service label */
+      .times {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
+        gap: 10px;
+        align-items: start;
+      }
+      .time-item {
+        background: linear-gradient(
+          180deg,
+          rgba(37, 99, 235, 0.06),
+          rgba(124, 58, 237, 0.04)
+        );
+        color: #0b1220;
+        padding: 10px 12px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 15px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        min-width: 72px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        align-items: center;
+        justify-content: center;
+      }
+      .time-item:first-child {
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        color: #fff;
+        box-shadow: 0 6px 18px rgba(37, 99, 235, 0.12);
+      }
+
+      /* when a time card uses the accent (recent/selected), make the service text white for contrast */
+      .time-item:first-child .service,
+      .time-item.recent .service {
+        color: #fff;
+        opacity: 0.95;
+      }
+
+      /* colour variants by service type */
+      .time-item.yellow {
+        background: linear-gradient(90deg, #facc15 0%, #f59e0b 100%);
+        color: #081026;
+        box-shadow: 0 6px 14px rgba(250, 204, 21, 0.12);
+      }
+      .time-item.yellow .service {
+        color: #081026;
+      }
+
+      .time-item.tt {
+        background: linear-gradient(180deg, #000000 0%, #161616 100%);
+        color: #ffffff;
+        box-shadow: 0 4px 10px rgba(15, 17, 24, 0.06);
+      }
+      .time-item.tt .service {
+        color: #bbbbbb;
+      }
+
+      .service {
+        font-size: 12px;
+        color: var(--muted);
+        font-weight: 600;
+        max-width: 220px;
+        text-align: center;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .times-empty {
+        color: var(--muted);
+        padding: 12px 0;
+        font-weight: 600;
+        grid-column: 1/-1;
+        text-align: center;
+      }
+
+      .error {
+        color: var(--danger);
+        font-weight: 700;
+        margin-top: 6px;
+      }
+
+      @media (max-width: 420px) {
+        body {
+          padding: 18px 12px;
+        }
+        .time-item {
+          font-size: 14px;
+          padding: 8px 10px;
+          min-width: 62px;
+        }
+        .card {
+          padding: 14px;
+        }
+        .times {
+          grid-template-columns: repeat(2, minmax(80px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" role="main">
+      <header>
+        <h1>Next departures</h1>
+        <div class="sub">Olympic Legacy Park</div>
+      </header>
+
+      <div class="cards" aria-live="polite">
+        <section class="card" aria-labelledby="o-title">
+          <div class="heading">
+            <strong id="o-title">Olympic Legacy Park -> City</strong>
+          </div>
+
+          <div id="meta-1" class="meta">Loading…</div>
+          <div id="times-1" class="times" aria-hidden="false"></div>
+          <div id="err-1" class="error" style="display: none"></div>
+        </section>
+
+        <section class="card" aria-labelledby="c-title">
+          <div class="heading">
+            <strong id="c-title">City -> Olympic Legacy Park</strong>
+          </div>
+
+          <div id="meta-2" class="meta">Loading…</div>
+          <div id="times-2" class="times" aria-hidden="false"></div>
+          <div id="err-2" class="error" style="display: none"></div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const POLL_SECS = 30
+      const API = '/api/times'
+
+      const SECTIONS = [
+        {
+          stop: '9400ZZSYDVS1',
+          meta: 'meta-1',
+          times: 'times-1',
+          err: 'err-1'
+        },
+        { stop: '9400ZZSYDVS2', meta: 'meta-2', times: 'times-2', err: 'err-2' }
+      ]
+
+      async function fetchForStop(stop) {
+        const url = `${API}?fromcode=${encodeURIComponent(stop)}`
+        const res = await fetch(url, { cache: 'no-store' })
+        if (!res.ok) throw new Error('HTTP ' + res.status)
+        return res.json()
+      }
+
+      function renderTimesContainer(timesContainer, times) {
+        timesContainer.innerHTML = ''
+
+        // Accept either:
+        // - old format: array of strings, e.g. ["19:45","19:47"]
+        // - new format: array of objects {time, service}
+        if (!times || times.length === 0) {
+          const el = document.createElement('div')
+          el.className = 'times-empty'
+          el.textContent = '(no times found)'
+          timesContainer.appendChild(el)
+          return
+        }
+
+        // if times are plain strings, convert to objects
+        const normalized = times.map(t => {
+          if (typeof t === 'string') return { time: t, service: '' }
+          // if object already has time/service, pass through
+          return { time: t.time || '', service: t.service || '' }
+        })
+
+        normalized.forEach((it, idx) => {
+          const d = document.createElement('div')
+          d.className = 'time-item'
+
+          const timeEl = document.createElement('div')
+          timeEl.textContent = it.time
+          timeEl.setAttribute('aria-hidden', 'false')
+
+          d.appendChild(timeEl)
+
+          if (it.service && it.service.trim()) {
+            const s = document.createElement('div')
+            s.className = 'service'
+            s.textContent = it.service
+            d.appendChild(s)
+          }
+
+          // add a class to colour the item based on service (e.g. Yellow or TT)
+          const svc = (it.service || '').toLowerCase()
+          if (svc.includes('yellow') || svc.includes('yell'))
+            d.classList.add('yellow')
+          else if (
+            svc.includes('tram train') ||
+            svc === 'tt' ||
+            svc.includes('tt')
+          )
+            d.classList.add('tt')
+
+          timesContainer.appendChild(d)
+        })
+
+        if (normalized.length % 2 === 1) {
+          const spacer = document.createElement('div')
+          spacer.style.visibility = 'hidden'
+          spacer.style.height = '0'
+          timesContainer.appendChild(spacer)
+        }
+      }
+
+      async function updateSection(s) {
+        const metaEl = document.getElementById(s.meta)
+        const timesEl = document.getElementById(s.times)
+        const errEl = document.getElementById(s.err)
+        errEl.style.display = 'none'
+
+        try {
+          const j = await fetchForStop(s.stop)
+          const times = j.times || []
+          renderTimesContainer(timesEl, times)
+          metaEl.textContent = `Stop ${j.stop} • last fetched ${new Date(
+            j.fetched_at
+          ).toLocaleTimeString()}${j.cached ? ' (cached)' : ''}`
+        } catch (e) {
+          errEl.style.display = 'block'
+          errEl.textContent = 'Error fetching times: ' + (e.message || e)
+          metaEl.textContent = `Stop ${s.stop}`
+        }
+      }
+
+      async function updateAll() {
+        await Promise.all(SECTIONS.map(updateSection))
+      }
+
+      updateAll()
+      setInterval(updateAll, POLL_SECS * 1000)
+    </script>
+  </body>
+</html>
