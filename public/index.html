@@ -1,480 +1,499 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Next departures — Olympic Legacy Park</title>
 
-    <style>
-      html {
-        height: 100%;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Next departures — Olympic Legacy Park</title>
 
-      :root {
-        --bg-1: #0f0f0f;
-        --bg-2: #1a1a1a;
-        --card: #1a1a1a;
-        --muted: #888888;
-        --text: #fffafa;
-        --accent: 30 88 255;
-        --accent-2: 99 102 241;
-        --danger: #ff4444;
-        --glass: rgba(255, 255, 255, 0.1);
-        --max-width: 980px;
-        --yellow-rgb: 245 183 46;
-        --tt-rgb: 28 30 36;
-        --gap: 18px;
-        --radius: 8px;
-      }
+  <style>
+    html {
+      height: 100%;
+    }
 
-      html,
-      body {
-        height: 100%;
-        margin: 0;
-      }
-      body {
-        font-family: monospace;
-        -webkit-font-smoothing: antialiased;
-        color: #fffafa;
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
-        padding: 36px 20px;
-        zoom: 115%;
-        margin: 0;
-        background: #000000;
-      }
+    :root {
+      --bg-1: #0f0f0f;
+      --bg-2: #1a1a1a;
+      --card: #1a1a1a;
+      --muted: #888888;
+      --text: #fffafa;
+      --accent: 30 88 255;
+      --accent-2: 99 102 241;
+      --danger: #ff4444;
+      --glass: rgba(255, 255, 255, 0.1);
+      --max-width: 980px;
+      --yellow-rgb: 245 183 46;
+      --tt-rgb: 28 30 36;
+      --gap: 18px;
+      --radius: 8px;
+    }
 
-      .bg {
-        display: none;
-      }
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
 
-      .bg2 {
-        display: none;
-      }
+    body {
+      font-family: monospace;
+      -webkit-font-smoothing: antialiased;
+      color: #fffafa;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 36px 20px;
+      zoom: 115%;
+      margin: 0;
+      background: #000000;
+    }
 
-      .bg3 {
-        display: none;
-      }
+    .bg {
+      display: none;
+    }
 
-      @keyframes slide {
-        0% {
-          transform: translateX(-25%);
-        }
-        100% {
-          transform: translateX(25%);
-        }
+    .bg2 {
+      display: none;
+    }
+
+    .bg3 {
+      display: none;
+    }
+
+    @keyframes slide {
+      0% {
+        transform: translateX(-25%);
       }
 
-      .container {
-        width: 100%;
-        max-width: var(--max-width);
-        display: flex;
-        flex-direction: column;
-        gap: var(--gap);
+      100% {
+        transform: translateX(25%);
       }
+    }
 
-      header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 10px;
-      }
-      h1 {
-        margin: 0;
-        font-size: 28px;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        color: #fffafa;
-        font-weight: 700;
-        font-family: 'Courier New';
-        margin-top: 0;
-        padding-top: 0;
-      }
+    .container {
+      width: 100%;
+      max-width: var(--max-width);
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
 
-      .neon-text {
-        font-size: 2.2rem;
-        color: #fffafa;
-        text-shadow: none;
-        animation: none;
-        font-weight: 700;
-        font-family: Arial;
-      }
-      .sub {
-        color: var(--muted);
-        font-size: 13px;
-      }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
 
+    h1 {
+      margin: 0;
+      font-size: 28px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #fffafa;
+      font-weight: 700;
+      font-family: 'Courier New';
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    .neon-text {
+      font-size: 2.2rem;
+      color: #fffafa;
+      text-shadow: none;
+      animation: none;
+      font-weight: 700;
+      font-family: Arial;
+    }
+
+    .sub {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    @media (min-width: 820px) {
       .cards {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 18px;
+        grid-template-columns: 1fr 1fr;
       }
-      @media (min-width: 820px) {
-        .cards {
-          grid-template-columns: 1fr 1fr;
-        }
+    }
+
+    .card {
+      background: #1a1a1a;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      border: 1px solid #333333;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .heading strong {
+      font-size: 14px;
+      color: #fffafa;
+      font-weight: 600;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .heading .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta {
+      color: #666666;
+      font-size: 12px;
+      font-family: Arial, sans-serif;
+    }
+
+    /* single-column rows for time cards */
+    .times {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .time-item {
+      padding: 16px 20px;
+      border-radius: 6px;
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      background: #252525;
+      border: 1px solid #333333;
+    }
+
+    .time-item>div:first-child {
+      animation: flip 0.6s ease-in-out;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes flip {
+      0% {
+        transform: rotateX(90deg);
+        opacity: 0;
       }
 
-      .card {
-        background: #1a1a1a;
-        border-radius: var(--radius);
-        padding: 24px;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        border: 1px solid #333333;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
+      100% {
+        transform: rotateX(0deg);
+        opacity: 1;
+      }
+    }
+
+    /* entering */
+    .time-item.enter {
+      opacity: 0;
+      transform: translateY(10px) scale(0.99);
+    }
+
+    /* leaving */
+    .time-item.leave {
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      pointer-events: none;
+    }
+
+    /* subtle arriving pulse */
+    .time-item.arriving {
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12),
+        0 0 0 0 rgba(37, 99, 235, 0);
+      animation: pulse 1400ms ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12),
+          0 0 0 0 rgba(37, 99, 235, 0);
       }
 
-      .heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-      }
-      .heading strong {
-        font-size: 14px;
-        color: #fffafa;
-        font-weight: 600;
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      .heading .small {
-        font-size: 13px;
-        color: var(--muted);
-      }
-      .meta {
-        color: #666666;
-        font-size: 12px;
-        font-family: Arial, sans-serif;
+      40% {
+        box-shadow: 0 10px 26px rgba(37, 99, 235, 0.14),
+          0 0 10px 6px rgba(37, 99, 235, 0.06);
       }
 
-      /* single-column rows for time cards */
-      .times {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+      100% {
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1),
+          0 0 0 0 rgba(37, 99, 235, 0);
+      }
+    }
+
+    /* keep spacer invisible and not interfering */
+    .times .spacer {
+      visibility: hidden;
+      height: 0;
+      pointer-events: none;
+    }
+
+    .time-item:first-child {
+      background: linear-gradient(90deg,
+          rgba(30, 88, 255, 0.3),
+          rgba(99, 102, 241, 0.3));
+      color: #fff;
+      border: 1px solid rgba(30, 88, 255, 0.5);
+    }
+
+    /* when a time card uses the accent (recent/selected), make the service text white for contrast */
+    .time-item:first-child .service,
+    .time-item.recent .service {
+      color: #fff;
+      opacity: 0.95;
+    }
+
+    /* colour variants by service type */
+    .time-item.yellow {
+      background: rgba(231, 147, 2, 0.507);
+
+      color: #fbbf24;
+      border: 1px solid rgba(250, 204, 21, 0.4);
+    }
+
+    .time-item.yellow .service {
+      color: #ffe81e;
+    }
+
+    .time-item.tt {
+      background: #1a1a1a;
+      color: #fffafa;
+      border: 1px solid #444444;
+    }
+
+    .time-item.tt .service {
+      color: #aaaaaa;
+    }
+
+    .service {
+      font-size: 11px;
+      color: #999999;
+      font-weight: 500;
+      max-width: 220px;
+      text-align: right;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    .times-empty {
+      color: var(--muted);
+      padding: 12px 0;
+      font-weight: 600;
+      grid-column: 1/-1;
+      text-align: center;
+    }
+
+    .error {
+      color: var(--danger);
+      font-weight: 700;
+      margin-top: 6px;
+    }
+
+    .credits {
+      position: fixed;
+      bottom: 12px;
+      right: 20px;
+      font-size: 11px;
+      color: #666666;
+      font-family: Arial, sans-serif;
+      letter-spacing: 0.05em;
+    }
+
+    .credits a {
+      color: #1e58ff;
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+
+    .credits a:hover {
+      color: #6366f1;
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 18px 12px;
       }
 
       .time-item {
-        padding: 16px 20px;
-        border-radius: 6px;
-        font-size: 18px;
-        font-weight: 700;
-        font-family: 'Courier New', monospace;
-        display: flex;
-        flex-direction: row;
-        gap: 16px;
-        align-items: center;
-        justify-content: space-between;
-        background: #252525;
-        border: 1px solid #333333;
+        font-size: 14px;
+        padding: 8px 10px;
+        min-width: 62px;
       }
 
-      .time-item > div:first-child {
-        animation: flip 0.6s ease-in-out;
-        transform-style: preserve-3d;
+      .card {
+        padding: 14px;
       }
 
-      @keyframes flip {
-        0% {
-          transform: rotateX(90deg);
-          opacity: 0;
-        }
-        100% {
-          transform: rotateX(0deg);
-          opacity: 1;
-        }
+      .times {
+        grid-template-columns: repeat(2, minmax(80px, 1fr));
       }
+    }
+  </style>
+</head>
 
-      /* entering */
-      .time-item.enter {
-        opacity: 0;
-        transform: translateY(10px) scale(0.99);
-      }
+<body>
+  <div class="bg"></div>
+  <div class="bg bg2"></div>
+  <div class="bg bg3"></div>
+  <div class="container" role="main">
+    <header>
+      <h1 class="neon-text" style="text-align: right">Next departures</h1>
+      <span>(tram)</span>
+      <!--<div class="sub">Olympic Legacy Park</div>-->
+    </header>
 
-      /* leaving */
-      .time-item.leave {
-        opacity: 0;
-        transform: translateY(-8px) scale(0.98);
-        pointer-events: none;
-      }
+    <div class="cards" aria-live="polite">
+      <section class="card" aria-labelledby="o-title">
+        <div class="heading">
+          <strong id="o-title">Olympic Legacy Park --> Cathedral</strong>
+        </div>
 
-      /* subtle arriving pulse */
-      .time-item.arriving {
-        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12),
-          0 0 0 0 rgba(37, 99, 235, 0);
-        animation: pulse 1400ms ease-in-out infinite;
-      }
-      @keyframes pulse {
-        0% {
-          box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12),
-            0 0 0 0 rgba(37, 99, 235, 0);
-        }
-        40% {
-          box-shadow: 0 10px 26px rgba(37, 99, 235, 0.14),
-            0 0 10px 6px rgba(37, 99, 235, 0.06);
-        }
-        100% {
-          box-shadow: 0 8px 18px rgba(37, 99, 235, 0.1),
-            0 0 0 0 rgba(37, 99, 235, 0);
-        }
-      }
+        <div id="meta-1" class="meta">Loading…</div>
+        <div id="times-1" class="times" aria-hidden="false"></div>
+        <div id="err-1" class="error" style="display: none"></div>
+      </section>
 
-      /* keep spacer invisible and not interfering */
-      .times .spacer {
-        visibility: hidden;
-        height: 0;
-        pointer-events: none;
-      }
-      .time-item:first-child {
-        background: linear-gradient(
-          90deg,
-          rgba(30, 88, 255, 0.3),
-          rgba(99, 102, 241, 0.3)
-        );
-        color: #fff;
-        border: 1px solid rgba(30, 88, 255, 0.5);
-      }
+      <section class="card" aria-labelledby="c-title">
+        <div class="heading">
+          <strong id="c-title">Cathedral --> Olympic Legacy Park</strong>
+        </div>
 
-      /* when a time card uses the accent (recent/selected), make the service text white for contrast */
-      .time-item:first-child .service,
-      .time-item.recent .service {
-        color: #fff;
-        opacity: 0.95;
-      }
-
-      /* colour variants by service type */
-      .time-item.yellow {
-        background: rgba(231, 147, 2, 0.507);
-
-        color: #fbbf24;
-        border: 1px solid rgba(250, 204, 21, 0.4);
-      }
-      .time-item.yellow .service {
-        color: #ffe81e;
-      }
-
-      .time-item.tt {
-        background: #1a1a1a;
-        color: #fffafa;
-        border: 1px solid #444444;
-      }
-      .time-item.tt .service {
-        color: #aaaaaa;
-      }
-
-      .service {
-        font-size: 11px;
-        color: #999999;
-        font-weight: 500;
-        max-width: 220px;
-        text-align: right;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-      }
-
-      .times-empty {
-        color: var(--muted);
-        padding: 12px 0;
-        font-weight: 600;
-        grid-column: 1/-1;
-        text-align: center;
-      }
-
-      .error {
-        color: var(--danger);
-        font-weight: 700;
-        margin-top: 6px;
-      }
-
-      .credits {
-        position: fixed;
-        bottom: 12px;
-        right: 20px;
-        font-size: 11px;
-        color: #666666;
-        font-family: Arial, sans-serif;
-        letter-spacing: 0.05em;
-      }
-
-      .credits a {
-        color: #1e58ff;
-        text-decoration: none;
-        transition: color 200ms ease;
-      }
-
-      .credits a:hover {
-        color: #6366f1;
-      }
-
-      @media (max-width: 420px) {
-        body {
-          padding: 18px 12px;
-        }
-        .time-item {
-          font-size: 14px;
-          padding: 8px 10px;
-          min-width: 62px;
-        }
-        .card {
-          padding: 14px;
-        }
-        .times {
-          grid-template-columns: repeat(2, minmax(80px, 1fr));
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="bg"></div>
-    <div class="bg bg2"></div>
-    <div class="bg bg3"></div>
-    <div class="container" role="main">
-      <header>
-        <h1 class="neon-text" style="text-align: right">Next departures</h1>
-        <span>(tram)</span>
-        <!--<div class="sub">Olympic Legacy Park</div>-->
-      </header>
-
-      <div class="cards" aria-live="polite">
-        <section class="card" aria-labelledby="o-title">
-          <div class="heading">
-            <strong id="o-title">Olympic Legacy Park → City</strong>
-          </div>
-
-          <div id="meta-1" class="meta">Loading…</div>
-          <div id="times-1" class="times" aria-hidden="false"></div>
-          <div id="err-1" class="error" style="display: none"></div>
-        </section>
-
-        <section class="card" aria-labelledby="c-title">
-          <div class="heading">
-            <strong id="c-title">City → Olympic Legacy Park</strong>
-          </div>
-
-          <div id="meta-2" class="meta">Loading…</div>
-          <div id="times-2" class="times" aria-hidden="false"></div>
-          <div id="err-2" class="error" style="display: none"></div>
-        </section>
-      </div>
+        <div id="meta-2" class="meta">Loading…</div>
+        <div id="times-2" class="times" aria-hidden="false"></div>
+        <div id="err-2" class="error" style="display: none"></div>
+      </section>
     </div>
-    <div class="credits">
-      Made by
-      <a href="https://github.com/afkllc" target="_blank">afkllc</a>
-      with the help of
-      <a href="https://github.com/devramsean0" target="_blank">devramsean0</a>
-    </div>
-    <script>
-      const POLL_SECS = 30
-      const API = '/api/times'
+  </div>
+  <div class="credits">
+    Made by
+    <a href="https://github.com/afkllc" target="_blank">afkllc</a>
+    with the help of
+    <a href="https://github.com/devramsean0" target="_blank">devramsean0</a>
+  </div>
+  <script>
+    const POLL_SECS = 30
+    const API = '/api/times'
 
-      const SECTIONS = [
-        {
-          stop: '9400ZZSYDVS1',
-          meta: 'meta-1',
-          times: 'times-1',
-          err: 'err-1'
-        },
-        { stop: '9400ZZSYDVS2', meta: 'meta-2', times: 'times-2', err: 'err-2' }
-      ]
+    const SECTIONS = [
+      {
+        stop: '9400ZZSYDVS1',
+        meta: 'meta-1',
+        times: 'times-1',
+        err: 'err-1'
+      },
+      { stop: '9400ZZSYDVS2', meta: 'meta-2', times: 'times-2', err: 'err-2' }
+    ]
 
-      async function fetchForStop(stop) {
-        const url = `${API}?fromcode=${encodeURIComponent(stop)}`
-        const res = await fetch(url, { cache: 'no-store' })
-        if (!res.ok) throw new Error('HTTP ' + res.status)
-        return res.json()
+    async function fetchForStop(stop) {
+      const url = `${API}?fromcode=${encodeURIComponent(stop)}`
+      const res = await fetch(url, { cache: 'no-store' })
+      if (!res.ok) throw new Error('HTTP ' + res.status)
+      return res.json()
+    }
+
+    function renderTimesContainer(timesContainer, times) {
+      timesContainer.innerHTML = ''
+
+      // Accept either:
+      // - old format: array of strings, e.g. ["19:45","19:47"]
+      // - new format: array of objects {time, service}
+      if (!times || times.length === 0) {
+        const el = document.createElement('div')
+        el.className = 'times-empty'
+        el.textContent = '(no times found)'
+        timesContainer.appendChild(el)
+        return
       }
 
-      function renderTimesContainer(timesContainer, times) {
-        timesContainer.innerHTML = ''
+      // if times are plain strings, convert to objects
+      const normalized = times.map(t => {
+        if (typeof t === 'string') return { time: t, service: '' }
+        // if object already has time/service, pass through
+        return { time: t.time || '', service: t.service || '' }
+      })
 
-        // Accept either:
-        // - old format: array of strings, e.g. ["19:45","19:47"]
-        // - new format: array of objects {time, service}
-        if (!times || times.length === 0) {
-          const el = document.createElement('div')
-          el.className = 'times-empty'
-          el.textContent = '(no times found)'
-          timesContainer.appendChild(el)
-          return
+      normalized.forEach((it, idx) => {
+        const d = document.createElement('div')
+        d.className = 'time-item'
+
+        const timeEl = document.createElement('div')
+        timeEl.textContent = it.time
+        timeEl.setAttribute('aria-hidden', 'false')
+
+        d.appendChild(timeEl)
+
+        if (it.service && it.service.trim()) {
+          const s = document.createElement('div')
+          s.className = 'service'
+          s.textContent = it.service
+          d.appendChild(s)
         }
 
-        // if times are plain strings, convert to objects
-        const normalized = times.map(t => {
-          if (typeof t === 'string') return { time: t, service: '' }
-          // if object already has time/service, pass through
-          return { time: t.time || '', service: t.service || '' }
-        })
+        // add a class to colour the item based on service (e.g. Yellow or TT)
+        const svc = (it.service || '').toLowerCase()
+        if (svc.includes('yellow') || svc.includes('yell'))
+          d.classList.add('yellow')
+        else if (
+          svc.includes('tram train') ||
+          svc === 'tt' ||
+          svc.includes('tt')
+        )
+          d.classList.add('tt')
 
-        normalized.forEach((it, idx) => {
-          const d = document.createElement('div')
-          d.className = 'time-item'
+        timesContainer.appendChild(d)
+      })
 
-          const timeEl = document.createElement('div')
-          timeEl.textContent = it.time
-          timeEl.setAttribute('aria-hidden', 'false')
-
-          d.appendChild(timeEl)
-
-          if (it.service && it.service.trim()) {
-            const s = document.createElement('div')
-            s.className = 'service'
-            s.textContent = it.service
-            d.appendChild(s)
-          }
-
-          // add a class to colour the item based on service (e.g. Yellow or TT)
-          const svc = (it.service || '').toLowerCase()
-          if (svc.includes('yellow') || svc.includes('yell'))
-            d.classList.add('yellow')
-          else if (
-            svc.includes('tram train') ||
-            svc === 'tt' ||
-            svc.includes('tt')
-          )
-            d.classList.add('tt')
-
-          timesContainer.appendChild(d)
-        })
-
-        if (normalized.length % 2 === 1) {
-          const spacer = document.createElement('div')
-          spacer.style.visibility = 'hidden'
-          spacer.style.height = '0'
-          timesContainer.appendChild(spacer)
-        }
+      if (normalized.length % 2 === 1) {
+        const spacer = document.createElement('div')
+        spacer.style.visibility = 'hidden'
+        spacer.style.height = '0'
+        timesContainer.appendChild(spacer)
       }
+    }
 
-      async function updateSection(s) {
-        const metaEl = document.getElementById(s.meta)
-        const timesEl = document.getElementById(s.times)
-        const errEl = document.getElementById(s.err)
-        errEl.style.display = 'none'
+    async function updateSection(s) {
+      const metaEl = document.getElementById(s.meta)
+      const timesEl = document.getElementById(s.times)
+      const errEl = document.getElementById(s.err)
+      errEl.style.display = 'none'
 
-        try {
-          const j = await fetchForStop(s.stop)
-          const times = j.times || []
-          renderTimesContainer(timesEl, times)
-          metaEl.textContent = `Stop ${j.stop} • last fetched ${new Date(
-            j.fetched_at
-          ).toLocaleTimeString()}`
-        } catch (e) {
-          errEl.style.display = 'block'
-          errEl.textContent = 'Error fetching times: ' + (e.message || e)
-          metaEl.textContent = `Stop ${s.stop}`
-        }
+      try {
+        const j = await fetchForStop(s.stop)
+        const times = j.times || []
+        renderTimesContainer(timesEl, times)
+        metaEl.textContent = `Stop ${j.stop} • last fetched ${new Date(
+          j.fetched_at
+        ).toLocaleTimeString()}`
+      } catch (e) {
+        errEl.style.display = 'block'
+        errEl.textContent = 'Error fetching times: ' + (e.message || e)
+        metaEl.textContent = `Stop ${s.stop}`
       }
+    }
 
-      async function updateAll() {
-        await Promise.all(SECTIONS.map(updateSection))
-      }
+    async function updateAll() {
+      await Promise.all(SECTIONS.map(updateSection))
+    }
 
-      updateAll()
-      setInterval(updateAll, POLL_SECS * 1000)
-    </script>
-  </body>
+    updateAll()
+    setInterval(updateAll, POLL_SECS * 1000)
+  </script>
+</body>
+
 </html>
